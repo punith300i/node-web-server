@@ -1,6 +1,8 @@
 const express = require('express');
 const hbs = require('hbs');
 const fs = require('fs');
+const port = process.env.PORT || 3000;
+
 var app = express();
 
 // used to place partial snippets (.abs files).
@@ -16,7 +18,7 @@ hbs.registerHelper('screamIt', (text) => {
 });
 
 //app.use is used to register a middleware. it is executed in the order we call app.use
-//app.use(express.static(__dirname+'/public')); so we need to move this down so that we can test the maintanence hbs.
+//app.use(express.static(__dirname+'/public'));we need to move this down so that we can test the maintanence hbs.
 
 app.use((req, res, next) => {
     var now = new Date().toString();
@@ -30,9 +32,9 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use((req, res, next) => {
-    res.render('maintanence.hbs');
-});
+// app.use((req, res, next) => {
+//     res.render('maintanence.hbs');
+// });
 
 app.use(express.static(__dirname+'/public'));
 // used to set a hbs key-value pair.
@@ -63,6 +65,6 @@ app.get('/bad', (req, res) => {
 });
 
 // deploying a local sever that listens at port 3000 http://localhost:3000
-app.listen(3000, () => {
-    console.log('Server is up on port 3000');
+app.listen(port, () => {
+    console.log(`Server is up on port ${port}`);
 });
